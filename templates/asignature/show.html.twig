@@ -15,6 +15,10 @@
                 <th>Name</th>
                 <td>{{ asignature.name }}</td>
             </tr>
+            {% for añoAct in añoActual %}
+              <th>Año en curso</th>
+              <td>{{ añoAct.name }}</td>
+            {% endfor %}
         </tbody>
     </table>
 

@@ -43,10 +43,14 @@ class AsignatureController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_asignature_show', methods: ['GET'])]
-    public function show(Asignature $asignature): Response
+    public function show(Asignature $asignature, AsignatureRepository $añoCursada, $id): Response
     {
+      $año = $añoCursada->findOneById($id);
+      $añoActual = $año->getYear();
+
         return $this->render('asignature/show.html.twig', [
             'asignature' => $asignature,
+            'añoActual' => $añoActual
         ]);
     }
 

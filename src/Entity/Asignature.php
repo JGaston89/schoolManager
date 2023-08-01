@@ -22,6 +22,9 @@ class Asignature
     #[ORM\ManyToOne(inversedBy: 'asignature')]
     private ?Teacher $teacher = null;
 
+    #[ORM\OneToOne(inversedBy: 'asignature', cascade: ['persist', 'remove'])]
+    private ?Year $year = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -53,7 +56,7 @@ class Asignature
 
     public function __toString(){
       return strval($this->getName());
-  }
+    }
 
     public function getTeacher(): ?Teacher
     {
@@ -63,6 +66,18 @@ class Asignature
     public function setTeacher(?Teacher $teacher): static
     {
         $this->teacher = $teacher;
+
+        return $this;
+    }
+
+    public function getYear(): ?Year
+    {
+        return $this->year;
+    }
+
+    public function setYear(?Year $year): static
+    {
+        $this->year = $year;
 
         return $this;
     }

@@ -50,10 +50,14 @@ class StudentController extends AbstractController
     {
       $alumno = $estudiantes->findOneById($id);
       $asignatures = $alumno->getAsignature();
+      $carrera = $alumno->getCareer();
+      
+  
 
          return $this->render('student/show.html.twig', [
              'student' => $student,
-             'asignatures' => $asignatures,    
+             'asignatures' => $asignatures,
+             'carrera' => $carrera,    
          ]);
            
     }
