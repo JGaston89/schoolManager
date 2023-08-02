@@ -23,7 +23,7 @@ class TeacherController extends AbstractController
     }
 
     #[Route('/new', name: 'app_teacher_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager, Teacher $teacher, $id): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, Teacher $teacher): Response
     {
         $teacher = new Teacher();
         $form = $this->createForm(TeacherType::class, $teacher);

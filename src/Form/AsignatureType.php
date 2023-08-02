@@ -13,9 +13,7 @@ class AsignatureType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('student')
             ->add('year')
-            ->add('teacher')
         ;
     }
 

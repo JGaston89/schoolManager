@@ -21,9 +21,13 @@ class Career
     #[ORM\OneToMany(mappedBy: 'career', targetEntity: Student::class)]
     private Collection $student;
 
+    #[ORM\OneToMany(mappedBy: 'career', targetEntity: Asignature::class)]
+    private Collection $asignature;
+
     public function __construct()
     {
         $this->student = new ArrayCollection();
+        $this->asignature = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -75,5 +79,35 @@ class Career
 
     public function __toString(){
       return strval($this->getName());
+    }
+
+    /**
+     * @return Collection<int, Asignature>
+     */
+    public function getAsignature(): Collection
+    {
+        return $this->asignature;
+    }
+
+    public function addAsignature(Asignature $asignature): static
+    {
+        if (!$this->asignature->contains($asignature)) {
+            $this->asignature->add($asignature);
+            $asignature->setCareer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAsignature(Asignature $asignature): static
+    {
+        if ($this->asignature->removeElement($asignature)) {
+            // set the owning side to null (unless already changed)
+            if ($asignature->getCareer() === $this) {
+                $asignature->setCareer(null);
+            }
+        }
+
+        return $this;
     }
 }

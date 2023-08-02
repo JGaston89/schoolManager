@@ -24,16 +24,8 @@ class Student
     #[ORM\Column]
     private ?int $dni = null;
 
-    #[ORM\OneToMany(mappedBy: 'student', targetEntity: Asignature::class)]
-    private Collection $asignature;
-
     #[ORM\ManyToOne(inversedBy: 'student')]
     private ?Career $career = null;
-
-    public function __construct()
-    {
-        $this->asignature = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
@@ -76,35 +68,6 @@ class Student
         return $this;
     }
 
-    /**
-     * @return Collection<int, Asignature>
-     */
-    public function getAsignature(): Collection
-    {
-        return $this->asignature;
-    }
-
-    public function addAsignature(Asignature $asignature): static
-    {
-        if (!$this->asignature->contains($asignature)) {
-            $this->asignature->add($asignature);
-            $asignature->setStudent($this);
-        }
-
-        return $this;
-    }
-
-    public function removeAsignature(Asignature $asignature): static
-    {
-        if ($this->asignature->removeElement($asignature)) {
-            // set the owning side to null (unless already changed)
-            if ($asignature->getStudent() === $this) {
-                $asignature->setStudent(null);
-            }
-        }
-
-        return $this;
-    }
 
     public function __toString(){
       return strval($this->getName());

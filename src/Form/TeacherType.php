@@ -15,6 +15,7 @@ class TeacherType extends AbstractType
             ->add('name')
             ->add('lastName')
             ->add('dni')
+            ->add('asignature')
         ;
     }
 

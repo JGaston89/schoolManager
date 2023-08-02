@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\AsignatureRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: AsignatureRepository::class)]
@@ -16,14 +18,19 @@ class Asignature
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\ManyToOne(inversedBy: 'asignature')]
-    private ?Student $student = null;
+    #[ORM\OneToMany(mappedBy: 'asignature', targetEntity: Teacher::class)]
+    private Collection $teachers;
 
     #[ORM\ManyToOne(inversedBy: 'asignature')]
-    private ?Teacher $teacher = null;
+    private ?Career $career = null;
 
-    #[ORM\OneToOne(inversedBy: 'asignature', cascade: ['persist', 'remove'])]
+    #[ORM\ManyToOne(inversedBy: 'asignatures')]
     private ?Year $year = null;
+
+    public function __construct()
+    {
+        $this->teachers = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -42,30 +49,50 @@ class Asignature
         return $this;
     }
 
-    public function getStudent(): ?Student
-    {
-        return $this->student;
-    }
-
-    public function setStudent(?Student $student): static
-    {
-        $this->student = $student;
-
-        return $this;
-    }
 
     public function __toString(){
       return strval($this->getName());
     }
 
-    public function getTeacher(): ?Teacher
+
+    /**
+     * @return Collection<int, Teacher>
+     */
+    public function getTeachers(): Collection
     {
-        return $this->teacher;
+        return $this->teachers;
     }
 
-    public function setTeacher(?Teacher $teacher): static
+    public function addTeacher(Teacher $teacher): static
     {
-        $this->teacher = $teacher;
+        if (!$this->teachers->contains($teacher)) {
+            $this->teachers->add($teacher);
+            $teacher->setAsignature($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTeacher(Teacher $teacher): static
+    {
+        if ($this->teachers->removeElement($teacher)) {
+            // set the owning side to null (unless already changed)
+            if ($teacher->getAsignature() === $this) {
+                $teacher->setAsignature(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getCareer(): ?Career
+    {
+        return $this->career;
+    }
+
+    public function setCareer(?Career $career): static
+    {
+        $this->career = $career;
 
         return $this;
     }

@@ -24,13 +24,9 @@ class Teacher
     #[ORM\Column(length: 255)]
     private ?string $dni = null;
 
-    #[ORM\OneToMany(mappedBy: 'teacher', targetEntity: Asignature::class)]
-    private Collection $asignature;
+    #[ORM\ManyToOne(inversedBy: 'teachers')]
+    private ?Asignature $asignature = null;
 
-    public function __construct()
-    {
-        $this->asignature = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
@@ -73,37 +69,21 @@ class Teacher
         return $this;
     }
 
-    /**
-     * @return Collection<int, Asignature>
-     */
-    public function getAsignature(): Collection
-    {
-        return $this->asignature;
-    }
 
-    public function addAsignature(Asignature $asignature): static
-    {
-        if (!$this->asignature->contains($asignature)) {
-            $this->asignature->add($asignature);
-            $asignature->setTeacher($this);
-        }
-
-        return $this;
-    }
-
-    public function removeAsignature(Asignature $asignature): static
-    {
-        if ($this->asignature->removeElement($asignature)) {
-            // set the owning side to null (unless already changed)
-            if ($asignature->getTeacher() === $this) {
-                $asignature->setTeacher(null);
-            }
-        }
-
-        return $this;
-    }
 
     public function __toString(){
       return strval($this->getName());
   }
+
+    public function getAsignature(): ?Asignature
+    {
+        return $this->asignature;
+    }
+
+    public function setAsignature(?Asignature $asignature): static
+    {
+        $this->asignature = $asignature;
+
+        return $this;
+    }
 }

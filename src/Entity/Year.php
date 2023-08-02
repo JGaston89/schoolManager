@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\YearRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: YearRepository::class)]
@@ -16,8 +18,13 @@ class Year
     #[ORM\Column(length: 255)]
     private ?string $year = null;
 
-    #[ORM\OneToOne(mappedBy: 'year', cascade: ['persist', 'remove'])]
-    private ?Asignature $asignature = null;
+    #[ORM\OneToMany(mappedBy: 'year', targetEntity: Asignature::class)]
+    private Collection $asignatures;
+
+    public function __construct()
+    {
+        $this->asignatures = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -36,29 +43,38 @@ class Year
         return $this;
     }
 
-    public function getAsignature(): ?Asignature
-    {
-        return $this->asignature;
-    }
-
-    public function setAsignature(?Asignature $asignature): static
-    {
-        // unset the owning side of the relation if necessary
-        if ($asignature === null && $this->asignature !== null) {
-            $this->asignature->setYear(null);
-        }
-
-        // set the owning side of the relation if necessary
-        if ($asignature !== null && $asignature->getYear() !== $this) {
-            $asignature->setYear($this);
-        }
-
-        $this->asignature = $asignature;
-
-        return $this;
-    }
 
     public function __toString(){
       return strval($this->getYear());
   }
+
+    /**
+     * @return Collection<int, Asignature>
+     */
+    public function getAsignatures(): Collection
+    {
+        return $this->asignatures;
+    }
+
+    public function addAsignature(Asignature $asignature): static
+    {
+        if (!$this->asignatures->contains($asignature)) {
+            $this->asignatures->add($asignature);
+            $asignature->setYear($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAsignature(Asignature $asignature): static
+    {
+        if ($this->asignatures->removeElement($asignature)) {
+            // set the owning side to null (unless already changed)
+            if ($asignature->getYear() === $this) {
+                $asignature->setYear(null);
+            }
+        }
+
+        return $this;
+    }
 }
