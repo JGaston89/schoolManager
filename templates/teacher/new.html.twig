@@ -3,9 +3,18 @@
 {% block title %}New Teacher{% endblock %}
 
 {% block body %}
-    <h1>Create new Teacher</h1>
+    <h1>Crear nuevo profesor</h1>
 
-    {{ include('teacher/_form.html.twig') }}
+    {{ form_start(form) }}
+    {{ form_row(form.name) }}
+    {{ form_row(form.lastName) }}
+    {{ form_row(form.dni) }}
 
-    <a href="{{ path('app_teacher_index') }}">back to list</a>
+    <h2>Asignaturas</h2>
+    {{ form_row(form.asignature) }}
+
+    {{ form_row(form.save) }}
+    {{ form_end(form) }}
 {% endblock %}
+
+
