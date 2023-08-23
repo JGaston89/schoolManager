@@ -27,6 +27,15 @@ class Student
     #[ORM\ManyToOne(inversedBy: 'student')]
     private ?Career $career = null;
 
+    #[ORM\ManyToMany(targetEntity: Asignature::class, inversedBy: 'students')]
+    private Collection $asignature;
+
+    public function __construct()
+    {
+        $this->asignature = new ArrayCollection();
+    }
+
+
     public function getId(): ?int
     {
         return $this->id;
@@ -84,4 +93,31 @@ class Student
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, Asignature>
+     */
+    public function getAsignature(): Collection
+    {
+        return $this->asignature;
+    }
+
+    public function addAsignature(Asignature $asignature): static
+    {
+        if (!$this->asignature->contains($asignature)) {
+            $this->asignature->add($asignature);
+        }
+
+        return $this;
+    }
+
+    public function removeAsignature(Asignature $asignature): static
+    {
+        $this->asignature->removeElement($asignature);
+
+        return $this;
+    }
+
+
+   
 }

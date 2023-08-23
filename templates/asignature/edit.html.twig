@@ -4,10 +4,17 @@
 
 {% block body %}
     <h1>Edit Asignature</h1>
+    {{ form_start(form) }}
+    {{ form_row(form.name) }}
+    {{ form_row(form.year) }}
+    {{ form_row(form.students) }}
+    
 
     {{ include('asignature/_form.html.twig', {'button_label': 'Update'}) }}
 
     <a href="{{ path('app_asignature_index') }}">back to list</a>
 
     {{ include('asignature/_delete_form.html.twig') }}
+
+     {{ form_end(form) }}
 {% endblock %}

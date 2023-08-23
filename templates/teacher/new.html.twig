@@ -7,14 +7,30 @@
 
     {{ form_start(form) }}
     {{ form_row(form.name) }}
-    {{ form_row(form.lastName) }}
+    {{ form_row(form.lastName)  }}
     {{ form_row(form.dni) }}
 
     <h2>Asignaturas</h2>
-    {{ form_row(form.asignature) }}
+    {# {{ form_row(form.asignature) }} #}
+    {# {{ form_row(form.save) }} #}
 
-    {{ form_row(form.save) }}
-    {{ form_end(form) }}
+    <div id="eldiv"></div>
+    <input type="submit" value="Submit" />
+    </form>
+    <button onclick="add()">Añadir asignatura</button>
+  </div>
+    
+     {{ form_end(form) }} 
+
+
+  <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+  <script type="text/javascript">
+  function add(){
+    $('#eldiv').append(
+    '<select class="form-control"  name="asignature[]" ><option value="">Seleccione asignatura</option>{% for materias in materias %}<option value="{{materias.id}}">{{materias.name}}</option>{% endfor %}</select><br><br>');
+  }
+  </script>
+    
 {% endblock %}
 
 

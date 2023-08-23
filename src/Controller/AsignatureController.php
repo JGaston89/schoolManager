@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Career;
 use App\Entity\Asignature;
 use App\Form\AsignatureType;
 use App\Repository\AsignatureRepository;
@@ -10,6 +11,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
+
 
 #[Route('/asignature')]
 class AsignatureController extends AbstractController
@@ -81,5 +84,19 @@ class AsignatureController extends AbstractController
         }
 
         return $this->redirectToRoute('app_asignature_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/json/{id}', name: 'app_asignature_json', methods: ['GET'])]
+    public function lista(Career $career, EntityManagerInterface $entityManager, $id)
+    {
+      $career = $entityManager->getRepository(Career::class)->find($id);
+      $asignaturas = $entityManager->getRepository(Asignature::class)->findBy([
+        'career' => $career
+      ]);
+      $asignaturasArray = [];
+      foreach ($asignaturas as $asignatura) {
+        $asignaturasArray[] = $asignatura->getName();
+      }
+      return new JsonResponse($asignaturasArray);
     }
 }

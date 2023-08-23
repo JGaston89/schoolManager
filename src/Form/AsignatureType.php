@@ -6,6 +6,7 @@ use App\Entity\Asignature;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class AsignatureType extends AbstractType
 {
@@ -14,6 +15,8 @@ class AsignatureType extends AbstractType
         $builder
             ->add('name')
             ->add('year')
+            ->add('students')
+            // ->add('save', SubmitType::class, ['label' => 'Crear asignatura']);
         ;
     }
 

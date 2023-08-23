@@ -3,8 +3,9 @@
 {% block title %}Student index{% endblock %}
 
 {% block body %}
-    <h1>Student index</h1>
 
+    <h1>Student index</h1>
+<div style="display: flex ">
     <table class="table">
         <thead>
             <tr>
@@ -23,7 +24,7 @@
                 <td>{{ student.lastName }}</td>
                 <td>{{ student.dni }}</td>
                 <td>
-                    <a href="{{ path('app_student_show', {'id': student.id}) }}">show</a>
+                    <a href="{{ path('app_student_show', {'id': student.id}) }} " data-turbo-frame="mauro" >show</a>
                     <a href="{{ path('app_student_edit', {'id': student.id}) }}">edit</a>
                 </td>
             </tr>
@@ -35,5 +36,13 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_student_new') }}">Create new</a>
+    <div style="display: flex-columm">
+      <turbo-frame id="mauro">texto que aparece default sin clickear nada</turbo-frame>
+    </div>
+</div>
+
+  <a href="{{ path('app_student_new') }}">Create new</a>
+
+
+
 {% endblock %}

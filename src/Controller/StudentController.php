@@ -54,7 +54,7 @@ class StudentController extends AbstractController
       
   
 
-         return $this->render('student/show.html.twig', [
+         return $this->render('student/_student.html.twig', [
              'student' => $student,
              'asignatures' => $asignatures,
              'carrera' => $carrera,    
