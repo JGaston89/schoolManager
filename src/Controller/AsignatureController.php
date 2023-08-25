@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Career;
+use App\Repository\CareerRepository;
 use App\Entity\Asignature;
 use App\Form\AsignatureType;
 use App\Repository\AsignatureRepository;
@@ -18,10 +19,14 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class AsignatureController extends AbstractController
 {
     #[Route('/', name: 'app_asignature_index', methods: ['GET'])]
-    public function index(AsignatureRepository $asignatureRepository): Response
+    public function index(AsignatureRepository $asignatureRepository, CareerRepository $careerRepository): Response
     {
+      $asignatures = $asignatureRepository->findAll();
+      $careers = $careerRepository->findAll();
+
         return $this->render('asignature/index.html.twig', [
-            'asignatures' => $asignatureRepository->findAll(),
+          'asignatures' => $asignatures,
+          'careers' => $careers,
         ]);
     }
 

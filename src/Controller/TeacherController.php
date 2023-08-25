@@ -27,30 +27,25 @@ class TeacherController extends AbstractController
     }
 
     #[Route('/new', name: 'app_teacher_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager, Teacher $teacher, ManagerRegistry $doctrine, Asignature $materias): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, Teacher $teacher, ManagerRegistry $doctrine): Response
     {
-      
 
-        $teacher = new Teacher();
-        $mate = new Asignature();
-        $form = $this->createForm(AsignatureType::class, $materias);
+        $teacher = new Teacher(); 
         $form = $this->createForm(TeacherType::class, $teacher);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($teacher);
-            $entityManager->persist($materias);
             $entityManager->flush();
-            $entityManager->flush();
-            // return $this->redirectToRoute('app_teacher_index', [], Response::HTTP_SEE_OTHER);
 
+            return $this->redirectToRoute('app_teacher_index', [], Response::HTTP_SEE_OTHER);
         }
         
-        $materias = $doctrine->getRepository(Asignature::class)->findAll();
-        return $this->render('teacher/new.html.twig', [
-            'teacher' => $teacher,
-            'form' => $form,
-            'materias' => $materias
+        $asignature = $doctrine->getRepository(Asignature::class)->findAll();
+          return $this->render('teacher/new.html.twig', [
+          'teacher' => $teacher,
+          'form' => $form->createView(),
+          'asignatures' => $asignature,
         ]);
     }
 

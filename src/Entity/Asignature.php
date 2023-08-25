@@ -18,9 +18,6 @@ class Asignature
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\OneToMany(mappedBy: 'asignature', targetEntity: Teacher::class)]
-    private Collection $teachers;
-
     #[ORM\ManyToOne(inversedBy: 'asignature')]
     private ?Career $career = null;
 
@@ -30,11 +27,14 @@ class Asignature
     #[ORM\ManyToMany(targetEntity: Student::class, mappedBy: 'asignature')]
     private Collection $students;
 
+    #[ORM\ManyToMany(targetEntity: Teacher::class, mappedBy: 'asignature')]
+    private Collection $teachers;
+
 
     public function __construct()
     {
-        $this->teachers = new ArrayCollection();
         $this->students = new ArrayCollection();
+        $this->teachers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -57,37 +57,6 @@ class Asignature
 
     public function __toString(){
       return strval($this->getName());
-    }
-
-
-    /**
-     * @return Collection<int, Teacher>
-     */
-    public function getTeachers(): Collection
-    {
-        return $this->teachers;
-    }
-
-    public function addTeacher(Teacher $teacher): static
-    {
-        if (!$this->teachers->contains($teacher)) {
-            $this->teachers->add($teacher);
-            $teacher->setAsignature($this);
-        }
-
-        return $this;
-    }
-
-    public function removeTeacher(Teacher $teacher): static
-    {
-        if ($this->teachers->removeElement($teacher)) {
-            // set the owning side to null (unless already changed)
-            if ($teacher->getAsignature() === $this) {
-                $teacher->setAsignature(null);
-            }
-        }
-
-        return $this;
     }
 
     public function getCareer(): ?Career
@@ -136,6 +105,33 @@ class Asignature
     {
         if ($this->students->removeElement($student)) {
             $student->removeAsignature($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Teacher>
+     */
+    public function getTeachers(): Collection
+    {
+        return $this->teachers;
+    }
+
+    public function addTeacher(Teacher $teacher): static
+    {
+        if (!$this->teachers->contains($teacher)) {
+            $this->teachers->add($teacher);
+            $teacher->addAsignature($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTeacher(Teacher $teacher): static
+    {
+        if ($this->teachers->removeElement($teacher)) {
+            $teacher->removeAsignature($this);
         }
 
         return $this;

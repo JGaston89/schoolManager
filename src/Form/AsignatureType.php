@@ -14,8 +14,9 @@ class AsignatureType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('year')
-            ->add('students')
+            ->add('career')
+            ->add('year') 
+            // ->add('students')
             // ->add('save', SubmitType::class, ['label' => 'Crear asignatura']);
         ;
     }
