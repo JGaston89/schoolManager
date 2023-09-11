@@ -3,42 +3,37 @@
 {% block body %}
 
 <turbo-frame id="mauro" action="replace">
-
-<h1>Student</h1>
-
-    <table class="table">
-        <tbody>
-            <tr>
+  <div style="display: flex; margin-left: 20px; ">
+          <table class="table">     
+            <thead>
+              <tr>
                 <th>Id</th>
-                <td>{{ student.id }}</td>
-            </tr>
-            <tr>
                 <th>Name</th>
-                <td>{{ student.name }}</td>
-            </tr>
-            <tr>
                 <th>LastName</th>
-                <td>{{ student.lastName }}</td>
-            </tr>
-            <tr>
                 <th>Dni</th>
-                <td>{{ student.dni }}</td>
-            </tr>
-          {% for asignature in asignatures %}
-            <tr>
-              <th>Asignatura</th>
-              <td>{{ asignature.name }}</td>
-            </tr>
-          {% endfor %}
+                <th>Asignatura</th>
+              </tr> 
+            </thead>
+          
+              <tbody style="text-align: center">
+                <tr>
+                  <td>{{ student.id }}</td>
+                  <td>{{ student.name }}</td>
+                  <td>{{ student.lastName }}</td>
+                  <td>{{ student.dni }}</td>
+                  {% for asignature in asignatures %}               
+                    <td>{{ asignature.name }}</td>  
+                  {% endfor %} 
+                </tr>             
+          </tbody>
+          </table>
 
-            {# <tr>
-              <th>Carrera</th>
-              <td>{{ carrera.name }}</td>
-            </tr> #}
-      
+  </div>  
 
-        </tbody>
-    </table>
 </turbo-frame>
 
 {% endblock %}
+
+
+
+

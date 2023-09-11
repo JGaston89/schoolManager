@@ -52,7 +52,7 @@ class TeacherController extends AbstractController
     #[Route('/{id}', name: 'app_teacher_show', methods: ['GET'])]
     public function show(Teacher $teacher): Response
     {
-        return $this->render('teacher/show.html.twig', [
+        return $this->render('teacher/_teacherShow.html.twig', [
             'teacher' => $teacher,
         ]);
     }
