@@ -21,9 +21,13 @@
                   <td>{{ student.name }}</td>
                   <td>{{ student.lastName }}</td>
                   <td>{{ student.dni }}</td>
-                  {% for asignature in asignatures %}               
-                    <td>{{ asignature.name }}</td>  
-                  {% endfor %} 
+                  {% for asignature in asignatures %} 
+                    <ul>
+                      <td>                 
+                        <li>{{ asignature.name }}</li>  
+                      </td>                      
+                    </ul> 
+                  {% endfor %}               
                 </tr>             
           </tbody>
           </table>

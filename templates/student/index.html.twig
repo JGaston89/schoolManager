@@ -9,40 +9,41 @@
 
 <div style="display: flex ">
   <div style ="display: flex ; justify-content: flex-start;">    
-  
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Name</th>
-                    <th>LastName</th>
-                    <th>Dni</th>
-                    <th>actions</th>
-                </tr>
-            </thead>
-            <tbody>
-            {% for student in students %}
-                <tr>
-                    <td>{{ loop.index }}</td>
-                    <td>{{ student.name }}</td>
-                    <td>{{ student.lastName }}</td>
-                    <td>{{ student.dni }}</td>
-                    <td>
-                        <a href="{{ path('app_student_show', {'id': student.id}) }} " data-turbo-frame="mauro" >show</a>
-                        <a href="{{ path('app_student_edit', {'id': student.id}) }}">edit</a>
-                    </td>
-                </tr>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Name</th>
+          <th>LastName</th>
+          <th>Dni</th>
+          <th>actions</th>
+        </tr>
+      </thead>
+        <tbody>
+          {% for student in students %}
+            <tr>
+              <td>{{ loop.index }}</td>
+              <td>{{ student.name }}</td>
+              <td>{{ student.lastName }}</td>
+              <td>{{ student.dni }}</td>
+              <td>
+                <a href="{{ path('app_student_show', {'id': student.id}) }} " data-turbo-frame="mauro" >show</a>
+                <a href="{{ path('app_student_edit', {'id': student.id}) }}">edit</a>
+              </td>
+            </tr>
             {% else %}
-                <tr>
-                    <td colspan="5">no records found</td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
+              <tr>
+                <td colspan="5">no records found</td>
+              </tr>
+          {% endfor %}
+        </tbody>
+    </table>
 
-        <div style="display: flex-columm">
-          <turbo-frame id="mauro">texto que aparece default sin clickear nada</turbo-frame>
-        </div>
+    <div style="display: flex-columm">
+      <div style="border-width:2px; border-radius:5px ;border-style: solid; border-color:black; margin-left: 100px">
+        <turbo-frame id="mauro">texto que aparece default sin clickear nada</turbo-frame>
+      </div>
+    </div>
 
   </div>      
 </div>
